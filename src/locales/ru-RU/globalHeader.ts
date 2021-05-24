@@ -1,0 +1,17 @@
+export default {
+  'component.globalHeader.search': 'Поиск',
+  'component.globalHeader.search.example1': 'Пример 1',
+  'component.globalHeader.search.example2': 'Пример 2',
+  'component.globalHeader.search.example3': 'Пример 3',
+  'component.globalHeader.help': 'Помощь',
+  'component.globalHeader.notification': 'Уведомления',
+  'component.globalHeader.notification.empty': 'Вы просмотрели все уведомления.',
+  'component.globalHeader.message': 'Сообщение',
+  'component.globalHeader.message.empty': 'Вы просмотрели все сообщения.',
+  'component.globalHeader.event': 'Событие',
+  'component.globalHeader.event.empty': 'Вы просмотрели все события.',
+  'component.noticeIcon.clear': 'Очистить',
+  'component.noticeIcon.cleared': 'Очищено',
+  'component.noticeIcon.empty': 'Нет уведомлений',
+  'component.noticeIcon.view-more': 'Посмотреть ещё',
+};
