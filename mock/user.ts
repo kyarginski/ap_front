@@ -41,6 +41,7 @@ export default {
       });
       return;
     }
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send({
       name: 'Admin',
       avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
@@ -117,6 +118,7 @@ export default {
   'POST /api/login/account': async (req: Request, res: Response) => {
     const { password, username, type } = req.body;
     await waitTime(2000);
+    res.setHeader('Access-Control-Allow-Origin', '*');
     if (password === 'ant.design' && username === 'admin') {
       res.send({
         status: 'ok',
@@ -154,12 +156,15 @@ export default {
   },
   'POST /api/login/outLogin': (req: Request, res: Response) => {
     access = '';
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send({ data: {}, success: true });
   },
   'POST /api/register': (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send({ status: 'ok', currentAuthority: 'user', success: true });
   },
   'GET /api/500': (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(500).send({
       timestamp: 1513932555104,
       status: 500,
@@ -169,6 +174,7 @@ export default {
     });
   },
   'GET /api/404': (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(404).send({
       timestamp: 1513932643431,
       status: 404,
@@ -178,6 +184,7 @@ export default {
     });
   },
   'GET /api/403': (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(403).send({
       timestamp: 1513932555104,
       status: 403,
@@ -187,6 +194,7 @@ export default {
     });
   },
   'GET /api/401': (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(401).send({
       timestamp: 1513932555104,
       status: 401,
