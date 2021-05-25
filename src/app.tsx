@@ -12,7 +12,7 @@ import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
-/** 获取用户信息比较慢的时候会展示一个 loading */
+/** Если получение информации о пользователе происходит медленно, отображается loading */
 export const initialStateConfig = {
   loading: <PageLoading />,
 };
@@ -34,7 +34,7 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  // 如果是登录页面，不执行
+  // Если это страница входа, не выполняем
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
     return {
@@ -50,24 +50,24 @@ export async function getInitialState(): Promise<{
 }
 
 /**
- * 异常处理程序
+ * Обработчик исключений
  const codeMessage = {
-    200: '服务器成功返回请求的数据。',
-    201: '新建或修改数据成功。',
-    202: '一个请求已经进入后台排队（异步任务）。',
-    204: '删除数据成功。',
-    400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-    401: '用户没有权限（令牌、用户名、密码错误）。',
-    403: '用户得到授权，但是访问是被禁止的。',
-    404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-    405: '请求方法不被允许。',
-    406: '请求的格式不可得。',
-    410: '请求的资源被永久删除，且不会再得到的。',
-    422: '当创建一个对象时，发生一个验证错误。',
-    500: '服务器发生错误，请检查服务器。',
-    502: '网关错误。',
-    503: '服务不可用，服务器暂时过载或维护。',
-    504: '网关超时。',
+     200: 'Сервер успешно вернул запрошенные данные. ',
+     201: 'Успешно создайте или измените данные. ',
+     202: 'Запрос попал в фоновую очередь (асинхронная задача). ',
+     204: 'Данные успешно удалены. ',
+     400: 'В отправленном запросе есть ошибка, и сервер не создал или не изменил данные. ',
+     401: 'У пользователя нет разрешения (токен, имя пользователя, пароль неверны). ',
+     403: 'Пользователь авторизован, но доступ запрещен. ',
+     404: 'Запрос относится к несуществующей записи, и сервер не работает. ',
+     405: 'Запрошенный метод недопустим. ',
+     406: 'Запрошенный формат недоступен. ',
+     410: 'Запрошенный ресурс был окончательно удален и больше не будет доступен. ',
+     422: 'При создании объекта произошла ошибка проверки. ',
+     500: 'Ошибка на сервере, проверьте сервер. ',
+     502: 'Ошибка шлюза. ',
+     503: 'Служба недоступна, сервер временно перегружен или обслуживается. ',
+     504: 'Истекло время ожидания шлюза. ',
  };
  * @see https://beta-pro.ant.design/docs/request-cn
  */
@@ -89,15 +89,15 @@ export const request: RequestConfig = {
 
     if (!response) {
       notification.error({
-        description: '您的网络发生异常，无法连接服务器',
-        message: '网络异常',
+        description: 'Ваша сеть работает нестабильно; невозможно подключиться к серверу',
+        message: 'Ошибка сети',
       });
     }
     throw error;
   },
 };
 
-// ProLayout 支持的api https://procomponents.ant.design/components/layout
+// ProLayout Поддерживаемый API https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     rightContentRender: () => <RightContent />,
@@ -108,7 +108,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
-      // 如果没有登录，重定向到 login
+      // Если не авторизованы, перенаправление на login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
       }
@@ -117,16 +117,16 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       ? [
           <Link to="/umi/plugin/openapi" target="_blank">
             <LinkOutlined />
-            <span>openAPI 文档</span>
+            <span>Описание openAPI</span>
           </Link>,
           <Link to="/~docs">
             <BookOutlined />
-            <span>业务组件文档</span>
+            <span>Документация</span>
           </Link>,
         ]
       : [],
     menuHeaderRender: undefined,
-    // 自定义 403 页面
+    // Пользовательская страница 403
     // unAccessible: <div>unAccessible</div>,
     ...initialState?.settings,
   };

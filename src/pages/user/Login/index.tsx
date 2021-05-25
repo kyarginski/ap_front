@@ -60,24 +60,24 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     setSubmitting(true);
     try {
-      // 登录
+      // авторизация
       const msg = await login({ ...values, type });
       if (msg.status === 'ok') {
         const defaultloginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
-          defaultMessage: '登录成功！',
+          defaultMessage: 'Вход выполнен успешно! ',
         });
         message.success(defaultloginSuccessMessage);
         await fetchUserInfo();
         goto();
         return;
       }
-      // 如果失败去设置用户错误信息
+      // Если не удается установить сообщение об ошибке пользователя
       setUserLoginState(msg);
     } catch (error) {
       const defaultloginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
+        defaultMessage: 'Вход не выполнен. Пожалуйста попробуйте еще раз! ',
       });
 
       message.error(defaultloginFailureMessage);
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
           <div className={styles.header}>
             <Link to="/">
               <img alt="logo" className={styles.logo} src="/logo.svg" />
-              <span className={styles.title}>Ant Design</span>
+              <span className={styles.title}>Another Platform</span>
             </Link>
           </div>
           <div className={styles.desc}>
@@ -111,7 +111,7 @@ const Login: React.FC = () => {
               searchConfig: {
                 submitText: intl.formatMessage({
                   id: 'pages.login.submit',
-                  defaultMessage: '登录',
+                  defaultMessage: 'Авторизоваться',
                 }),
               },
               render: (_, dom) => dom.pop(),
@@ -132,14 +132,14 @@ const Login: React.FC = () => {
                 key="account"
                 tab={intl.formatMessage({
                   id: 'pages.login.accountLogin.tab',
-                  defaultMessage: '账户密码登录',
+                  defaultMessage: 'Аккаунт пароль логин',
                 })}
               />
               <Tabs.TabPane
                 key="mobile"
                 tab={intl.formatMessage({
                   id: 'pages.login.phoneLogin.tab',
-                  defaultMessage: '手机号登录',
+                  defaultMessage: 'Вход по номеру мобильного телефона',
                 })}
               />
             </Tabs>
@@ -148,7 +148,7 @@ const Login: React.FC = () => {
               <LoginMessage
                 content={intl.formatMessage({
                   id: 'pages.login.accountLogin.errorMessage',
-                  defaultMessage: '账户或密码错误（admin/ant.design)',
+                  defaultMessage: 'Неверная учетная запись или пароль（admin/ant.design)',
                 })}
               />
             )}
@@ -162,7 +162,7 @@ const Login: React.FC = () => {
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.username.placeholder',
-                    defaultMessage: '用户名: admin or user',
+                    defaultMessage: 'имя пользователя: admin or user',
                   })}
                   rules={[
                     {
@@ -170,7 +170,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.username.required"
-                          defaultMessage="请输入用户名!"
+                          defaultMessage="Введите имя пользователя!"
                         />
                       ),
                     },
@@ -184,7 +184,7 @@ const Login: React.FC = () => {
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.password.placeholder',
-                    defaultMessage: '密码: ant.design',
+                    defaultMessage: 'Пароль: ant.design',
                   })}
                   rules={[
                     {
@@ -192,7 +192,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.password.required"
-                          defaultMessage="请输入密码！"
+                          defaultMessage="Пожалуйста, введите пароль!"
                         />
                       ),
                     },
@@ -201,7 +201,7 @@ const Login: React.FC = () => {
               </>
             )}
 
-            {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
+            {status === 'error' && loginType === 'mobile' && <LoginMessage content="Verification Code Error" />}
             {type === 'mobile' && (
               <>
                 <ProFormText
@@ -212,7 +212,7 @@ const Login: React.FC = () => {
                   name="mobile"
                   placeholder={intl.formatMessage({
                     id: 'pages.login.phoneNumber.placeholder',
-                    defaultMessage: '手机号',
+                    defaultMessage: 'Телефонный номер',
                   })}
                   rules={[
                     {
@@ -220,7 +220,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.phoneNumber.required"
-                          defaultMessage="请输入手机号！"
+                          defaultMessage="Пожалуйста, введите номер телефона! "
                         />
                       ),
                     },
@@ -229,7 +229,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.phoneNumber.invalid"
-                          defaultMessage="手机号格式错误！"
+                          defaultMessage="Неверный номер телефона! "
                         />
                       ),
                     },
@@ -245,18 +245,18 @@ const Login: React.FC = () => {
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.captcha.placeholder',
-                    defaultMessage: '请输入验证码',
+                    defaultMessage: 'Введите проверочный код',
                   })}
                   captchaTextRender={(timing, count) => {
                     if (timing) {
                       return `${count} ${intl.formatMessage({
                         id: 'pages.getCaptchaSecondText',
-                        defaultMessage: '获取验证码',
+                        defaultMessage: 'Получить проверочный код',
                       })}`;
                     }
                     return intl.formatMessage({
                       id: 'pages.login.phoneLogin.getVerificationCode',
-                      defaultMessage: '获取验证码',
+                      defaultMessage: 'Получить проверочный код',
                     });
                   }}
                   name="captcha"
@@ -266,7 +266,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.captcha.required"
-                          defaultMessage="请输入验证码！"
+                          defaultMessage="введите проверочный код!"
                         />
                       ),
                     },
@@ -278,7 +278,7 @@ const Login: React.FC = () => {
                     if (result === false) {
                       return;
                     }
-                    message.success('获取验证码成功！验证码为：1234');
+                    message.success('Проверочный код получен! Проверочный код: 1234');
                   }}
                 />
               </>
@@ -289,19 +289,19 @@ const Login: React.FC = () => {
               }}
             >
               <ProFormCheckbox noStyle name="autoLogin">
-                <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
+                <FormattedMessage id="pages.login.rememberMe" defaultMessage="Автоматический вход в систему" />
               </ProFormCheckbox>
               <a
                 style={{
                   float: 'right',
                 }}
               >
-                <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
+                <FormattedMessage id="pages.login.forgotPassword" defaultMessage="Забыли пароль" />
               </a>
             </div>
           </ProForm>
           <Space className={styles.other}>
-            <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" />
+            <FormattedMessage id="pages.login.loginWith" defaultMessage="Другие способы входа в систему" />
             <AlipayCircleOutlined className={styles.icon} />
             <TaobaoCircleOutlined className={styles.icon} />
             <WeiboCircleOutlined className={styles.icon} />

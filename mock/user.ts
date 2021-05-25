@@ -16,9 +16,9 @@ async function getFakeCaptcha(req: Request, res: Response) {
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
 
 /**
- * 当前用户的权限，如果为空代表没登录
+ * Разрешения текущего пользователя, если он пуст, значит нет логина
  * current user access， if is '', user need login
- * 如果是 pro 的预览，默认是有权限的
+ * Если это предварительный просмотр pro, он разрешен по умолчанию.
  */
 let access = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site' ? 'admin' : '';
 
@@ -26,9 +26,9 @@ const getAccess = () => {
   return access;
 };
 
-// 代码中会兼容本地 service mock 以及部署站点的静态数据
+// Код будет совместим с местными service mock и статическими данными сайта развертывания
 export default {
-  // 支持值为 Object 和 Array
+  // Значение поддержки Object Array
   'GET /api/currentUser': (req: Request, res: Response) => {
     if (!getAccess()) {
       res.status(401).send({
@@ -36,17 +36,17 @@ export default {
           isLogin: false,
         },
         errorCode: '401',
-        errorMessage: '请先登录！',
+        errorMessage: 'Пожалуйста, залогиньтесь',
         success: true,
       });
       return;
     }
     res.send({
-      name: 'Serati Ma',
+      name: 'Admin',
       avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
       userid: '00000001',
       email: 'antdesign@alipay.com',
-      signature: '海纳百川，有容乃大',
+      signature: 'Будьте терпимы к разнообразию, терпимость - это добродетель',
       title: '交互专家',
       group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
       tags: [
