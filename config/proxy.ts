@@ -22,7 +22,14 @@ export default {
   },
   pre: {
     '/api/': {
-      target: 'your pre url',
+      target: 'https://ap2021.netlify.app',
+      changeOrigin: true,
+      pathRewrite: { '^': '' },
+    },
+  },
+  production: {
+    '/api/': {
+      target: 'https://ap2021.netlify.app',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
