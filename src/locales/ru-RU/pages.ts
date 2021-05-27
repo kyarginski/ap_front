@@ -24,10 +24,10 @@ export default {
   'pages.login.loginWith': 'Логин при помощи :',
   'pages.login.registerAccount': 'Register Account',
   'pages.welcome.advancedComponent': 'Advanced Component',
-  'pages.welcome.link': 'Welcome',
+  'pages.welcome.link': 'Добро пожаловать',
   'pages.welcome.advancedLayout': 'Advanced Layout',
-  'pages.welcome.alertMessage': 'Faster and stronger heavy-duty components have been released.',
-  'pages.admin.subPage.title': 'This page can only be viewed by Admin',
+  'pages.welcome.alertMessage': 'На стадии разработки...',
+  'pages.admin.subPage.title': 'Эту страницу может просматривать только администратор',
   'pages.admin.subPage.alertMessage':
     'Umi ui is now released, welcome to use npm run ui to start the experience.',
   'pages.searchTable.createForm.newRule': 'New Rule',

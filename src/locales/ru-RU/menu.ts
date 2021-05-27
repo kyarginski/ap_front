@@ -1,5 +1,5 @@
 export default {
-  'menu.welcome': 'Welcome',
+  'menu.welcome': 'Главная',
   'menu.more-blocks': 'More Blocks',
   'menu.home': 'Home',
   'menu.admin': 'Admin',
@@ -49,4 +49,14 @@ export default {
   'menu.editor.flow': 'Flow Editor',
   'menu.editor.mind': 'Mind Editor',
   'menu.editor.koni': 'Koni Editor',
+  'menu.dictionaries': 'НСИ',
+  'menu.dictionaries.employees': 'Люди, сотрудники',
+  'menu.dictionaries.responsibilities': 'Должностные обязанности',
+  'menu.dictionaries.warehouses': 'Склады, товар',
+  'menu.dictionaries.offices': 'Офисы, люди',
+  'menu.dictionaries.vehicles': 'ТЭО, автотранспорт',
+  'menu.dictionaries.buyers': 'Покупатели',
+  'menu.dictionaries.suppliers': 'Поставщики',
+  'menu.dictionaries.banks': 'Банки (наши р/с)',
+  'menu.dictionaries.expenses': 'Затраты',
 };

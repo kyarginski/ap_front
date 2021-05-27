@@ -10,7 +10,7 @@ export default (): React.ReactNode => {
     <PageHeaderWrapper
       content={intl.formatMessage({
         id: 'pages.admin.subPage.title',
-        defaultMessage: ' Эту страницу может просматривать только администратор ',
+        defaultMessage: ' Эту страницу может просматривать только администратор',
       })}
     >
       <Card>
