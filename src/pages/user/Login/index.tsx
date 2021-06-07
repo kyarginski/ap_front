@@ -15,6 +15,7 @@ import Footer from '@/components/Footer';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 
 import styles from './index.less';
+import {login2} from "@/utils/serviceLogin";
 
 const LoginMessage: React.FC<{
   content: string;
@@ -118,16 +119,17 @@ const Login: React.FC = () => {
     try {
       console.log("values>>>>", values)
       // авторизация
-      //  const msg = await login({ ...values, type });
+       const msg = await login2({ ...values, type });
 
-      const msg = {
-        status: 'ok',
-        type: "account",
-        currentAuthority: "admin"
-      };
+      // const msg = {
+      //   status: 'ok',
+      //   type: "account",
+      //   currentAuthority: "admin"
+      // };
 
       // const msg = '{status: "ok", type: "account", currentAuthority: "admin"}'
-      // console.log(">>>>", msg)
+
+      console.log(">>>>", msg)
       if (msg.status === 'ok') {
         const defaultloginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
@@ -138,7 +140,7 @@ const Login: React.FC = () => {
         goto();
         return;
       }
-      // Если не удается установить сообщение об ошибке пользователя
+      // Если не удается установить сообщение об ошибке пользователю
       setUserLoginState(msg);
     } catch (error) {
       const defaultloginFailureMessage = intl.formatMessage({
