@@ -1,11 +1,12 @@
 /**
- * запросить инструмент веб-запроса
+ * Инструменты веб-запроса
  * Более подробная документация API: https://github.com/umijs/umi-request
  */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 
-const API_ADMIN_BASE_URL = 'http://localhost:3040/v1.0.0/';
+// const API_ADMIN_BASE_URL = 'http://localhost:3040/v1.0.0/';
+const API_ADMIN_BASE_URL = 'https://ap-auth.herokuapp.com/v1.0.0/';
 
 const codeMessage = {
   200: 'Сервер успешно возвратил запрошенные данные. ',
