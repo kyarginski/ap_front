@@ -10,3 +10,9 @@ export async function login2(body: API.LoginParams, options?: { [key: string]: a
     ...(options || {}),
   });
 }
+
+export async function queryCurrent(key: string) {
+  return request<API.CurrentUser>(`${getAdminBaseUrl()}api/user-info/${key}`, {
+    method: 'GET',
+  });
+}

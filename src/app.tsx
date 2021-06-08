@@ -6,8 +6,9 @@ import { getIntl, getLocale, history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import type { ResponseError } from 'umi-request';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+// import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import {queryCurrent} from "@/utils/serviceLogin";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -18,16 +19,20 @@ export const initialStateConfig = {
 };
 
 /**
- * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
+ * @see  https://umijs.org/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  fetchUserInfo?: (login: string) => Promise<API.CurrentUser | undefined>;
 }> {
-  const fetchUserInfo = async () => {
+  const fetchUserInfo = async (login: string) => {
     try {
-      const currentUser = await queryCurrentUser();
+//      const currentUser = await queryCurrentUser();
+      if (login === '') {
+        return undefined;
+      }
+      const currentUser = await queryCurrent(login);
       return currentUser;
     } catch (error) {
       history.push(loginPath);
@@ -36,7 +41,7 @@ export async function getInitialState(): Promise<{
   };
   // Если это страница входа, не выполняем
   if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
+    const currentUser = await fetchUserInfo("");
     return {
       fetchUserInfo,
       currentUser,
