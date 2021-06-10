@@ -27,7 +27,6 @@
     name: 'dictionaries',
     icon: 'table',
     access: 'canAdmin',
-    component: './Dict',
     routes: [
       {
         path: '/dictionaries/employees',
@@ -93,13 +92,18 @@
     name: 'admin',
     icon: 'crown',
     access: 'canAdmin',
-    component: './Admin',
     routes: [
       {
         path: '/admin/sub-page',
         name: 'sub-page',
         icon: 'smile',
         component: './Welcome',
+      },
+      {
+        path: '/admin/users',
+        name: 'Список пользователей',
+        icon: 'table',
+        component: './UserList',
       },
     ],
   },
