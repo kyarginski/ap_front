@@ -82,10 +82,8 @@
         icon: 'smile',
         component: './Welcome',
       },
-
     ],
   },
-
 
   {
     path: '/admin',
@@ -101,7 +99,7 @@
       },
       {
         path: '/admin/users',
-        name: 'Список пользователей',
+        name: 'users',
         icon: 'table',
         component: './UserList',
       },

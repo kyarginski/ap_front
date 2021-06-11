@@ -4,9 +4,9 @@
  */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
+import { API_BASE_URL } from '../../config/addresses';
 
-// const API_BASE_URL = 'http://localhost:3040/v1.0.0/';
-const API_BASE_URL = 'https://ap-auth.herokuapp.com/v1.0.0/';
+require('dotenv').config({ debug: true });
 
 const codeMessage = {
   200: 'Сервер успешно возвратил запрошенные данные. ',
@@ -58,8 +58,7 @@ const request = extend({
 });
 
 export function getAdminBaseUrl() {
-  const addr = process.env.API_SERVER_URL || API_BASE_URL;
-  return addr;
+  return process.env.API_SERVER_URL || API_BASE_URL;
 }
 
 export default request;
