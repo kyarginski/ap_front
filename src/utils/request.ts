@@ -5,8 +5,8 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 
-// const API_ADMIN_BASE_URL = 'http://localhost:3040/v1.0.0/';
-const API_ADMIN_BASE_URL = 'https://ap-auth.herokuapp.com/v1.0.0/';
+// const API_BASE_URL = 'http://localhost:3040/v1.0.0/';
+const API_BASE_URL = 'https://ap-auth.herokuapp.com/v1.0.0/';
 
 const codeMessage = {
   200: 'Сервер успешно возвратил запрошенные данные. ',
@@ -58,7 +58,8 @@ const request = extend({
 });
 
 export function getAdminBaseUrl() {
-  return API_ADMIN_BASE_URL;
+  const addr = process.env.API_SERVER_URL || API_BASE_URL;
+  return addr;
 }
 
 export default request;

@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -10,98 +10,95 @@ import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
-import { rule, addRule, updateRule, removeRule } from '@/services/ant-design-pro/api';
+import { getUsers, addUser, updateUser, removeUser } from '@/services/users/serviceUsers';
 
 /**
- * Список пользователей
+ * Список пользователей - добавить
  *
  * @param fields
  */
-const handleAdd = async (fields: API.RuleListItem) => {
-  const hide = message.loading('正在添加');
+const handleAdd = async (fields: users.UserListItem) => {
+  const hide = message.loading('Добавление');
   try {
-    await addRule({ ...fields });
+    await addUser({ ...fields });
     hide();
-    message.success('添加成功');
+    message.success('Добавлено успешно');
     return true;
   } catch (error) {
     hide();
-    message.error('添加失败请重试！');
+    message.error('Не удалось добавить, попробуйте еще раз!');
     return false;
   }
 };
 
 /**
- * 更新节点
+ * Обновление
  *
  * @param fields
  */
 const handleUpdate = async (fields: FormValueType) => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading('Обновление');
   try {
-    await updateRule({
+    await updateUser({
       name: fields.name,
       desc: fields.desc,
       key: fields.key,
     });
     hide();
 
-    message.success('配置成功');
+    message.success('Обновление прошло успешно');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('Ошибка обновления, попробуйте еще раз!');
     return false;
   }
 };
 
 /**
- * 删除节点
+ * Удаление
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.RuleListItem[]) => {
-  const hide = message.loading('正在删除');
+const handleRemove = async (selectedRows: users.UserListItem[]) => {
+  const hide = message.loading('Удаление');
   if (!selectedRows) return true;
   try {
-    await removeRule({
-      key: selectedRows.map((row) => row.key),
+    await removeUser({
+      key: selectedRows.map((row) => row.id),
     });
     hide();
-    message.success('删除成功，即将刷新');
+    message.success('Удалено успешно');
     return true;
   } catch (error) {
     hide();
-    message.error('删除失败，请重试');
+    message.error('Не удалось удалить, попробуйте еще раз');
     return false;
   }
 };
 
 const TableUserList: React.FC = () => {
-  /** 新建窗口的弹窗 */
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  /** 分布更新窗口的弹窗 */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<users.UserListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<users.UserListItem[]>([]);
 
-  /** 国际化配置 */
   const intl = useIntl();
 
-  const columns: ProColumns<API.RuleListItem>[] = [
+  const columns: ProColumns<users.UserListItem>[] = [
     {
       title: (
         <FormattedMessage
-          id="pages.searchTable.updateForm.ruleName.nameLabel"
-          defaultMessage="规则名称"
+          id="pages.userTable.updateForm.id.nameLabel"
+          defaultMessage="Идентификатор"
         />
       ),
-      dataIndex: 'name',
-      tip: '规则名称是唯一的 key',
+      dataIndex: 'id',
+      tip: 'Идентификатор - это уникальный ключ',
       render: (dom, entity) => {
         return (
           <a
@@ -116,102 +113,92 @@ const TableUserList: React.FC = () => {
       },
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleDesc" defaultMessage="描述" />,
-      dataIndex: 'desc',
+      title: (
+        <FormattedMessage id="pages.userTable.updateForm.login.nameLabel" defaultMessage="Логин" />
+      ),
+      dataIndex: 'login',
+      sorter: true,
       valueType: 'textarea',
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleCallNo" defaultMessage="服务调用次数" />,
-      dataIndex: 'callNo',
+      title: (
+        <FormattedMessage
+          id="pages.userTable.updateForm.surname.nameLabel"
+          defaultMessage="Фамилия"
+        />
+      ),
+      dataIndex: 'surname',
       sorter: true,
-      hideInForm: true,
-      renderText: (val: string) =>
-        `${val}${intl.formatMessage({
-          id: 'pages.searchTable.tenThousand',
-          defaultMessage: ' 万 ',
-        })}`,
-    },
-    {
-      title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="状态" />,
-      dataIndex: 'status',
-      hideInForm: true,
-      valueEnum: {
-        0: {
-          text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.default" defaultMessage="关闭" />
-          ),
-          status: 'Default',
-        },
-        1: {
-          text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.running" defaultMessage="运行中" />
-          ),
-          status: 'Processing',
-        },
-        2: {
-          text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.online" defaultMessage="已上线" />
-          ),
-          status: 'Success',
-        },
-        3: {
-          text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.abnormal" defaultMessage="异常" />
-          ),
-          status: 'Error',
-        },
-      },
+      valueType: 'textarea',
     },
     {
       title: (
-        <FormattedMessage id="pages.searchTable.titleUpdatedAt" defaultMessage="上次调度时间" />
+        <FormattedMessage
+          id="pages.userTable.updateForm.firstname.nameLabel"
+          defaultMessage="Имя"
+        />
       ),
+      dataIndex: 'firstname',
       sorter: true,
-      dataIndex: 'updatedAt',
-      valueType: 'dateTime',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
-        if (`${status}` === '0') {
-          return false;
-        }
-        if (`${status}` === '3') {
-          return (
-            <Input
-              {...rest}
-              placeholder={intl.formatMessage({
-                id: 'pages.searchTable.exception',
-                defaultMessage: '请输入异常原因！',
-              })}
-            />
-          );
-        }
-        return defaultRender(item);
-      },
+      valueType: 'textarea',
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            handleUpdateModalVisible(true);
-            setCurrentRow(record);
-          }}
-        >
-          <FormattedMessage id="pages.searchTable.config" defaultMessage="配置" />
-        </a>,
-        <a key="subscribeAlert" href="https://procomponents.ant.design/">
-          <FormattedMessage id="pages.searchTable.subscribeAlert" defaultMessage="订阅警报" />
-        </a>,
-      ],
+      title: (
+        <FormattedMessage
+          id="pages.userTable.updateForm.patronymic.nameLabel"
+          defaultMessage="Отчество"
+        />
+      ),
+      dataIndex: 'patronymic',
+      sorter: true,
+      valueType: 'textarea',
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.userTable.updateForm.create_dt.nameLabel"
+          defaultMessage="Дата создания"
+        />
+      ),
+      dataIndex: 'create_dt',
+      sorter: true,
+      valueType: 'dateTime',
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.userTable.updateForm.end_dt.nameLabel"
+          defaultMessage="Дата окончания"
+        />
+      ),
+      dataIndex: 'end_dt',
+      sorter: true,
+      valueType: 'dateTime',
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.userTable.updateForm.locked.nameLabel"
+          defaultMessage="Заблокировано"
+        />
+      ),
+      dataIndex: 'locked',
+      sorter: true,
+      valueType: 'textarea',
+    },
+    {
+      title: (
+        <FormattedMessage id="pages.userTable.updateForm.sec_type.nameLabel" defaultMessage="Тип" />
+      ),
+      dataIndex: 'sec_type',
+      sorter: true,
+      valueType: 'textarea',
     },
   ];
 
   return (
     <PageContainer>
-      <ProTable<API.RuleListItem, API.PageParams>
+      <ProTable<users.UserListItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Список пользователей',
@@ -229,10 +216,10 @@ const TableUserList: React.FC = () => {
               handleModalVisible(true);
             }}
           >
-            <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
+            <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="Новый" />
           </Button>,
         ]}
-        request={rule}
+        request={getUsers}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -244,18 +231,9 @@ const TableUserList: React.FC = () => {
         <FooterToolbar
           extra={
             <div>
-              <FormattedMessage id="pages.searchTable.chosen" defaultMessage="已选择" />{' '}
+              <FormattedMessage id="pages.searchTable.chosen" defaultMessage="выбран" />{' '}
               <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
-              <FormattedMessage id="pages.searchTable.item" defaultMessage="项" />
-              &nbsp;&nbsp;
-              <span>
-                <FormattedMessage
-                  id="pages.searchTable.totalServiceCalls"
-                  defaultMessage="服务调用次数总计"
-                />{' '}
-                {selectedRowsState.reduce((pre, item) => pre + item.callNo!, 0)}{' '}
-                <FormattedMessage id="pages.searchTable.tenThousand" defaultMessage="万" />
-              </span>
+              <FormattedMessage id="pages.searchTable.item" defaultMessage="элемент" />
             </div>
           }
         >
@@ -266,23 +244,29 @@ const TableUserList: React.FC = () => {
               actionRef.current?.reloadAndRest?.();
             }}
           >
-            <FormattedMessage id="pages.searchTable.batchDeletion" defaultMessage="批量删除" />
+            <FormattedMessage
+              id="pages.searchTable.batchDeletion"
+              defaultMessage="групповое удаление"
+            />
           </Button>
           <Button type="primary">
-            <FormattedMessage id="pages.searchTable.batchApproval" defaultMessage="批量审批" />
+            <FormattedMessage
+              id="pages.searchTable.batchApproval"
+              defaultMessage="групповое подтверждение"
+            />
           </Button>
         </FooterToolbar>
       )}
       <ModalForm
         title={intl.formatMessage({
-          id: 'pages.searchTable.createForm.newRule',
-          defaultMessage: '新建规则',
+          id: 'pages.searchTable.createForm.newUser',
+          defaultMessage: 'Новый пользователь',
         })}
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.RuleListItem);
+          const success = await handleAdd(value as users.UserListItem);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {
@@ -296,15 +280,12 @@ const TableUserList: React.FC = () => {
             {
               required: true,
               message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="规则名称为必填项"
-                />
+                <FormattedMessage id="pages.userTable.login" defaultMessage="Login обязателен" />
               ),
             },
           ]}
           width="md"
-          name="name"
+          name="login"
         />
         <ProFormTextArea width="md" name="desc" />
       </ModalForm>
@@ -336,17 +317,17 @@ const TableUserList: React.FC = () => {
         }}
         closable={false}
       >
-        {currentRow?.name && (
-          <ProDescriptions<API.RuleListItem>
+        {currentRow?.login && (
+          <ProDescriptions<users.UserListItem>
             column={2}
-            title={currentRow?.name}
+            title={currentRow?.login}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.name,
+              id: currentRow?.login,
             }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
+            columns={columns as ProDescriptionsItemProps<users.UserListItem>[]}
           />
         )}
       </Drawer>

@@ -5,8 +5,7 @@ import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
-// import { outLogin } from '@/services/ant-design-pro/api';
-import {logout} from "@/utils/serviceLogin";
+import { logout } from '@/services/login/serviceLogin';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -16,6 +15,7 @@ export type GlobalHeaderRightProps = {
  * Выход из системы и сохранение текущего URL
  */
 const loginOut = async () => {
+  localStorage.removeItem('token');
   await logout();
   const { query = {}, pathname } = history.location;
   const { redirect } = query;

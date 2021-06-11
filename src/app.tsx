@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import type { ResponseError } from 'umi-request';
 // import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
-import {queryCurrent} from "@/utils/serviceLogin";
+import { queryCurrent } from '@/services/login/serviceLogin';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -28,7 +28,7 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async (login: string) => {
     try {
-//      const currentUser = await queryCurrentUser();
+      //      const currentUser = await queryCurrentUser();
       if (login === '') {
         return undefined;
       }
@@ -41,7 +41,7 @@ export async function getInitialState(): Promise<{
   };
   // Если это страница входа, не выполняем
   if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo("");
+    const currentUser = await fetchUserInfo('');
     return {
       fetchUserInfo,
       currentUser,

@@ -9,6 +9,7 @@ import {
   ProFormDateTimePicker,
 } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage } from 'umi';
+import { users } from '@/services/users/users';
 
 export type FormValueType = {
   target?: string;
@@ -22,7 +23,7 @@ export type UpdateFormProps = {
   onCancel: (flag?: boolean, formVals?: FormValueType) => void;
   onSubmit: (values: FormValueType) => Promise<void>;
   updateModalVisible: boolean;
-  values: Partial<API.RuleListItem>;
+  values: Partial<users.UserListItem>;
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
@@ -39,8 +40,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             bodyStyle={{ padding: '32px 40px 48px' }}
             destroyOnClose
             title={intl.formatMessage({
-              id: 'pages.searchTable.updateForm.ruleConfig',
-              defaultMessage: '规则配置',
+              id: 'pages.userTable.updateForm.title',
+              defaultMessage: 'Пользователь',
             })}
             visible={props.updateModalVisible}
             footer={submitter}
@@ -56,12 +57,12 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
     >
       <StepsForm.StepForm
         initialValues={{
-          name: props.values.name,
-          desc: props.values.desc,
+          login: props.values.login,
+          pwd: props.values.pwd,
         }}
         title={intl.formatMessage({
-          id: 'pages.searchTable.updateForm.basicConfig',
-          defaultMessage: '基本信息',
+          id: 'pages.userTable.updateForm.basicConfig',
+          defaultMessage: 'Основная информация',
         })}
       >
         <ProFormText

@@ -15,7 +15,7 @@ import Footer from '@/components/Footer';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 
 import styles from './index.less';
-import {login2} from "@/utils/serviceLogin";
+import { login2 } from '@/services/login/serviceLogin';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
 
   const intl = useIntl();
 
-  const fetchUserInfo = async (login: string | undefined) => {
+  const fetchUserInfo = async (login: string | undefined, token: string | undefined) => {
     let userInfo: API.CurrentUser | undefined;
 
     if (login != null) {
@@ -57,6 +57,11 @@ const Login: React.FC = () => {
     // console.log("userInfo", userInfo)
 
     if (userInfo) {
+      if (typeof token === 'string' && token !== '') {
+        localStorage.setItem('token', token);
+      }
+
+      userInfo.token = token;
       setInitialState({
         ...initialState,
         currentUser: userInfo,
@@ -67,18 +72,18 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     setSubmitting(true);
     try {
-      console.log("values>>>>", values)
+      console.log('values>>>>', values);
       // авторизация
       const msg = await login2({ ...values, type });
 
-      console.log(">>>>", msg)
+      console.log('>>>>', msg);
       if (msg.status === 'ok') {
         const defaultloginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: 'Вход выполнен успешно! ',
         });
         message.success(defaultloginSuccessMessage);
-        await fetchUserInfo(values.username);
+        await fetchUserInfo(values.username, msg.token);
         goto();
         return;
       }
@@ -211,7 +216,9 @@ const Login: React.FC = () => {
               </>
             )}
 
-            {status === 'error' && loginType === 'mobile' && <LoginMessage content="Verification Code Error" />}
+            {status === 'error' && loginType === 'mobile' && (
+              <LoginMessage content="Verification Code Error" />
+            )}
             {type === 'mobile' && (
               <>
                 <ProFormText
@@ -299,7 +306,10 @@ const Login: React.FC = () => {
               }}
             >
               <ProFormCheckbox noStyle name="autoLogin">
-                <FormattedMessage id="pages.login.rememberMe" defaultMessage="Автоматический вход в систему" />
+                <FormattedMessage
+                  id="pages.login.rememberMe"
+                  defaultMessage="Автоматический вход в систему"
+                />
               </ProFormCheckbox>
               <a
                 style={{
@@ -311,7 +321,10 @@ const Login: React.FC = () => {
             </div>
           </ProForm>
           <Space className={styles.other}>
-            <FormattedMessage id="pages.login.loginWith" defaultMessage="Другие способы входа в систему" />
+            <FormattedMessage
+              id="pages.login.loginWith"
+              defaultMessage="Другие способы входа в систему"
+            />
             <AlipayCircleOutlined className={styles.icon} />
             <TaobaoCircleOutlined className={styles.icon} />
             <WeiboCircleOutlined className={styles.icon} />
