@@ -2,9 +2,9 @@
 /* eslint-disable */
 import { request } from 'umi';
 
-/** Returns pet inventories by status Returns a map of status codes to quantities GET /store/inventory */
+/** Returns pet inventories by status Returns a map of status codes to quantities GET /store/Inventory */
 export async function getInventory(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/store/inventory', {
+  return request<Record<string, any>>('/store/Inventory', {
     method: 'GET',
     ...(options || {}),
   });

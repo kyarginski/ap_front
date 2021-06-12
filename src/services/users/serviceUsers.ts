@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import request, { getAdminBaseUrl } from '@/utils/request';
+import request, { getAuthServerUrl } from '@/utils/request';
 
 export async function getUsers(
   params?: {
@@ -14,7 +14,7 @@ export async function getUsers(
 ) {
   const token = localStorage.getItem('token');
 
-  return request<users.UserList>(`${getAdminBaseUrl()}users`, {
+  const result = request<users.UserList>(`${getAuthServerUrl()}users`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -25,6 +25,10 @@ export async function getUsers(
     },
     ...(options || {}),
   });
+
+  console.log('result >>>', result)
+
+  return result;
 }
 
 export async function updateUser(options?: { [key: string]: any }) {

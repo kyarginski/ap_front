@@ -116,7 +116,7 @@ const TableUserList: React.FC = () => {
       title: (
         <FormattedMessage id="pages.userTable.updateForm.login.nameLabel" defaultMessage="Логин" />
       ),
-      dataIndex: 'login',
+      dataIndex: 'username',
       sorter: true,
       valueType: 'textarea',
     },
@@ -204,7 +204,7 @@ const TableUserList: React.FC = () => {
           defaultMessage: 'Список пользователей',
         })}
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
@@ -317,15 +317,15 @@ const TableUserList: React.FC = () => {
         }}
         closable={false}
       >
-        {currentRow?.login && (
+        {currentRow?.username && (
           <ProDescriptions<users.UserListItem>
             column={2}
-            title={currentRow?.login}
+            title={currentRow?.username}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.login,
+              id: currentRow?.username,
             }}
             columns={columns as ProDescriptionsItemProps<users.UserListItem>[]}
           />

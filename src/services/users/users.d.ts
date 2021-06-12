@@ -4,8 +4,8 @@
 declare namespace users {
   type UserListItem = {
     id?: number;
-    login?: string;
-    pwd?: string;
+    username?: string;
+    password?: string;
     surname?: string;
     firstname?: string;
     patronymic?: string;

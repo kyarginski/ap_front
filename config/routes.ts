@@ -103,6 +103,12 @@
         icon: 'table',
         component: './UserList',
       },
+      {
+        path: '/admin/Inventory',
+        name: 'inventory',
+        icon: 'table',
+        component: './Inventory',
+      },
     ],
   },
   {

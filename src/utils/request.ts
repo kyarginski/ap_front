@@ -4,7 +4,7 @@
  */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
-import { API_BASE_URL } from '../../config/addresses';
+import { API_AUTH_URL } from '../../config/addresses';
 
 require('dotenv').config({ debug: true });
 
@@ -57,8 +57,8 @@ const request = extend({
   credentials: 'include', // Использовать ли куки по умолчанию
 });
 
-export function getAdminBaseUrl() {
-  return process.env.API_SERVER_URL || API_BASE_URL;
+export function getAuthServerUrl() {
+  return process.env.API_AUTH_SERVER_URL || API_AUTH_URL;
 }
 
 export default request;

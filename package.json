@@ -22,7 +22,7 @@
     "precommit": "lint-staged",
     "prettier": "prettier -c --write \"src/**/*\"",
     "start": "cross-env UMI_ENV=dev umi dev",
-    "start:local": "cross-env REACT_APP_ENV=dev API_SERVER_URL=http://localhost:3040/v1.0.0/ UMI_ENV=dev umi dev",
+    "start:local": "cross-env REACT_APP_ENV=dev API_AUTH_SERVER_URL=http://localhost:3040/v1.0.0/ UMI_ENV=dev umi dev",
     "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none UMI_ENV=dev umi dev",
     "start:no-mock": "cross-env MOCK=none UMI_ENV=dev umi dev",
     "start:no-ui": "cross-env UMI_UI=none UMI_ENV=dev umi dev",
