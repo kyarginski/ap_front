@@ -65,7 +65,7 @@ const handleRemove = async (selectedRows: users.UserListItem[]) => {
   if (!selectedRows) return true;
   try {
     await removeUser({
-      key: selectedRows.map((row) => row.id),
+      id: selectedRows.map((row) => row.id),
     });
     hide();
     message.success('Удалено успешно');

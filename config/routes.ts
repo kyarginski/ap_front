@@ -101,7 +101,7 @@
         path: '/admin/users',
         name: 'users',
         icon: 'table',
-        component: './UserList',
+        component: './Users',
       },
       {
         path: '/admin/Inventory',
