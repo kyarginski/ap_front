@@ -65,4 +65,7 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
+  define: {
+    API_AUTH_URL: 'https://ap-auth.herokuapp.com/v1.0.0/',
+  },
 });

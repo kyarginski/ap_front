@@ -4,9 +4,7 @@
  */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
-import { API_AUTH_URL } from '../../config/addresses';
-
-require('dotenv').config({ debug: true });
+// import { API_AUTH_URL } from '../../config/addresses';
 
 const codeMessage = {
   200: 'Сервер успешно возвратил запрошенные данные. ',
@@ -58,7 +56,8 @@ const request = extend({
 });
 
 export function getAuthServerUrl() {
-  return process.env.API_AUTH_SERVER_URL || API_AUTH_URL;
+  // return process.env.API_AUTH_SERVER_URL || API_AUTH_URL;
+  return `${API_AUTH_URL}`;
 }
 
 export default request;

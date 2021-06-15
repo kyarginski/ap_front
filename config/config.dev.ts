@@ -15,4 +15,7 @@ export default defineConfig({
   webpack5: {
     // lazyCompilation: {},
   },
+  define: {
+    API_AUTH_URL: 'http://localhost:3040/v1.0.0/',
+  },
 });
