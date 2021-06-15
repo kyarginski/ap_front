@@ -7,8 +7,8 @@ export interface TableListItem {
   patronymic?: string;
   createDt?: dateTime;
   endDt?: dateTime;
-  locked?: string;
-  secType?: string;
+  locked?: number;
+  secType?: number;
 }
 
 export interface TableListPagination {
@@ -34,6 +34,6 @@ export interface TableListParams {
   patronymic?: string;
   createDt?: dateTime;
   endDt?: dateTime;
-  locked?: string;
-  secType?: string;
+  locked?: number;
+  secType?: number;
 }

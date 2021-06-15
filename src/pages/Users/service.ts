@@ -17,8 +17,13 @@ export async function queryUsers(params?: TableListParams) {
 }
 
 export async function addUser(params: TableListParams) {
+  const token = localStorage.getItem('token');
+
   return request(`${getAuthServerUrl()}clients/`, {
     method: 'POST',
+    headers: {
+      'Authorization': `${token}`,
+    },
     data: {
       ...params,
     },
@@ -26,8 +31,13 @@ export async function addUser(params: TableListParams) {
 }
 
 export async function updateUser(params: TableListParams) {
+  const token = localStorage.getItem('token');
+
   return request(`${getAuthServerUrl()}clients/`, {
     method: 'PATCH',
+    headers: {
+      'Authorization': `${token}`,
+    },
     data: {
       ...params,
       method: 'update',
@@ -36,8 +46,13 @@ export async function updateUser(params: TableListParams) {
 }
 
 export async function deleteUser(params: { id: number[] }) {
+  const token = localStorage.getItem('token');
+
   return request(`${getAuthServerUrl()}clients/`, {
     method: 'DELETE',
+    headers: {
+      'Authorization': `${token}`,
+    },
     data: {
       ...params,
     },

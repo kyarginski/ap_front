@@ -137,11 +137,19 @@ const TableList: React.FC<{}> = () => {
       title: 'Заблокирован',
       dataIndex: 'locked',
       sorter: true,
+      valueEnum: {
+        0: { text: 'Нет', status: 'Default' },
+        1: { text: 'Да', status: 'Processing' },
+      },
     },
     {
       title: 'Тип',
       dataIndex: 'secType',
       sorter: true,
+      valueEnum: {
+        0: { text: 'Тип Обычный', status: 'Default' },
+        1: { text: 'Тип Другой', status: 'Processing' },
+      },
     },
     {
       title: 'Операции',

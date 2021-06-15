@@ -1,6 +1,7 @@
-import {Form, Input, Modal} from 'antd';
+import {Form, Input, Modal, Select} from 'antd';
 import React, {useState} from 'react';
 import {TableListItem} from "@/pages/Users/data";
+import {ProFormSelect} from "@ant-design/pro-form";
 
 const FormItem = Form.Item;
 
@@ -157,13 +158,16 @@ const EditForm: React.FC<EditFormProps> = props => {
           <Input placeholder="Пожалуйста, введите "/>
         </FormItem>
 
-        <FormItem
+        <ProFormSelect
           name="locked"
+          width="md"
           label="Заблокировано"
           rules={[{required: false}]}
-        >
-          <Input placeholder="Пожалуйста, введите "/>
-        </FormItem>
+          valueEnum={{
+            0: 'Нет',
+            1: 'Да',
+          }}
+        />
 
         <FormItem
           name="secType"
