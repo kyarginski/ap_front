@@ -1,7 +1,7 @@
-import {Form, Input, Modal, Select} from 'antd';
-import React, {useState} from 'react';
-import {TableListItem} from "@/pages/Users/data";
-import {ProFormSelect} from "@ant-design/pro-form";
+import { Form, Input, Modal } from 'antd';
+import React, { useState } from 'react';
+import { TableListItem } from '@/pages/Users/data';
+import { ProFormDatePicker, ProFormSelect } from '@ant-design/pro-form';
 
 const FormItem = Form.Item;
 
@@ -17,26 +17,23 @@ export interface EditFormProps {
 }
 
 const formLayout = {
-  labelCol: {span: 7},
-  wrapperCol: {span: 20},
+  labelCol: { span: 7 },
+  wrapperCol: { span: 20 },
 };
 
-const EditForm: React.FC<EditFormProps> = props => {
-
-  const [formVals, setFormVals] = useState<FormValueType>(
-    {
-      id: props.values.id,
-      username: props.values.username,
-      password: props.values.password,
-      surname: props.values.surname,
-      firstname: props.values.firstname,
-      patronymic: props.values.patronymic,
-      createDt: props.values.createDt,
-      endDt: props.values.endDt,
-      locked: props.values.locked,
-      secType: props.values.secType,
-    }
-  );
+const EditForm: React.FC<EditFormProps> = (props) => {
+  const [formVals, setFormVals] = useState<FormValueType>({
+    id: props.values.id,
+    username: props.values.username,
+    password: props.values.password,
+    surname: props.values.surname,
+    firstname: props.values.firstname,
+    patronymic: props.values.patronymic,
+    createDt: props.values.createDt,
+    endDt: props.values.endDt,
+    locked: props.values.locked,
+    secType: props.values.secType,
+  });
 
   const [form] = Form.useForm();
 
@@ -50,21 +47,20 @@ const EditForm: React.FC<EditFormProps> = props => {
   const okHandle = async () => {
     const fieldsValue = await form.validateFields();
 
-    setFormVals({...formVals, ...fieldsValue});
+    setFormVals({ ...formVals, ...fieldsValue });
 
-    formVals.id = form.getFieldValue("id");
-    formVals.username = form.getFieldValue("username");
-    formVals.password = form.getFieldValue("password");
-    formVals.surname = form.getFieldValue("surname");
-    formVals.firstname = form.getFieldValue("firstname");
-    formVals.patronymic = form.getFieldValue("patronymic");
-    formVals.createDt = form.getFieldValue("createDt");
-    formVals.endDt = form.getFieldValue("endDt");
-    formVals.locked = form.getFieldValue("locked");
-    formVals.secType = form.getFieldValue("secType");
+    formVals.id = form.getFieldValue('id');
+    formVals.username = form.getFieldValue('username');
+    formVals.password = form.getFieldValue('password');
+    formVals.surname = form.getFieldValue('surname');
+    formVals.firstname = form.getFieldValue('firstname');
+    formVals.patronymic = form.getFieldValue('patronymic');
+    formVals.createDt = form.getFieldValue('createDt');
+    formVals.endDt = form.getFieldValue('endDt');
+    formVals.locked = form.getFieldValue('locked');
+    formVals.secType = form.getFieldValue('secType');
 
     handleUpdate(formVals);
-
   };
 
   return (
@@ -75,7 +71,6 @@ const EditForm: React.FC<EditFormProps> = props => {
       onOk={okHandle}
       onCancel={() => handleUpdateModalVisible(false, values)}
       afterClose={() => handleUpdateModalVisible()}
-
     >
       <Form
         {...formLayout}
@@ -91,94 +86,66 @@ const EditForm: React.FC<EditFormProps> = props => {
           endDt: formVals.endDt,
           locked: formVals.locked,
           secType: formVals.secType,
-
         }}
       >
         <FormItem
           name="id"
           label="Идентификатор"
-          rules={[{required: true, message: 'Пожалуйста, введите идентификатор!'}]}
+          rules={[{ required: true, message: 'Пожалуйста, введите идентификатор!' }]}
         >
-          <Input placeholder="Пожалуйста, введите "/>
+          <Input placeholder="Пожалуйста, введите " />
         </FormItem>
 
         <FormItem
           name="username"
           label="Логин"
-          rules={[{required: true, message: 'Пожалуйста, введите логин!'}]}
+          rules={[{ required: true, message: 'Пожалуйста, введите логин!' }]}
         >
-          <Input placeholder="Пожалуйста, введите "/>
+          <Input placeholder="Пожалуйста, введите " />
         </FormItem>
 
-        <FormItem
-          name="password"
-          label="Пароль"
-          rules={[{required: false}]}
-        >
-          <Input placeholder="Пожалуйста, введите "/>
+        <FormItem name="password" label="Пароль" rules={[{ required: false }]}>
+          <Input placeholder="Пожалуйста, введите " />
         </FormItem>
 
-        <FormItem
-          name="surname"
-          label="Фамилия"
-          rules={[{required: false}]}
-        >
-          <Input placeholder="Пожалуйста, введите "/>
+        <FormItem name="surname" label="Фамилия" rules={[{ required: false }]}>
+          <Input placeholder="Пожалуйста, введите " />
         </FormItem>
 
-        <FormItem
-          name="firstname"
-          label="Имя"
-          rules={[{required: false}]}
-        >
-          <Input placeholder="Пожалуйста, введите "/>
+        <FormItem name="firstname" label="Имя" rules={[{ required: false }]}>
+          <Input placeholder="Пожалуйста, введите " />
         </FormItem>
 
-        <FormItem
-          name="patronymic"
-          label="Отчество"
-          rules={[{required: false}]}
-        >
-          <Input placeholder="Пожалуйста, введите "/>
+        <FormItem name="patronymic" label="Отчество" rules={[{ required: false }]}>
+          <Input placeholder="Пожалуйста, введите " />
         </FormItem>
 
-        <FormItem
-          name="createDt"
-          label="Дата создания"
-          rules={[{required: false}]}
-        >
-          <Input placeholder="Пожалуйста, введите "/>
-        </FormItem>
+        <ProFormDatePicker readonly name="createDt" label="Дата создания" />
 
-        <FormItem
-          name="endDt"
-          label="Дата окончания"
-          rules={[{required: false}]}
-        >
-          <Input placeholder="Пожалуйста, введите "/>
-        </FormItem>
+        <ProFormDatePicker name="endDt" label="Дата окончания" />
 
         <ProFormSelect
           name="locked"
           width="md"
           label="Заблокировано"
-          rules={[{required: false}]}
+          rules={[{ required: false }]}
           valueEnum={{
             0: 'Нет',
             1: 'Да',
           }}
         />
 
-        <FormItem
+        <ProFormSelect
           name="secType"
+          width="md"
           label="Тип"
-          rules={[{required: false}]}
-        >
-          <Input placeholder="Пожалуйста, введите "/>
-        </FormItem>
-
+          rules={[{ required: false }]}
+          valueEnum={{
+            0: 'Тип Обычный',
+            1: 'Тип Другой',
+          }}
+        />
       </Form>
-
     </Modal>
   );
 };

@@ -1,14 +1,14 @@
 import { DownOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, Dropdown, Menu, message } from 'antd';
+import { Button, Dropdown, Menu, message } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import { SorterResult } from 'antd/es/table/interface';
 
 import CreateForm from './components/CreateForm';
-import EditForm, {FormValueType} from './components/EditForm';
+import EditForm, { FormValueType } from './components/EditForm';
 import { TableListItem } from './data.d';
-import {addUser, updateUser, deleteUser, queryUsers} from './service';
+import { addUser, updateUser, deleteUser, queryUsers } from './service';
 
 /**
  * Добавить данные
@@ -58,7 +58,6 @@ const handleEdit = async (fields: FormValueType) => {
   }
 };
 
-
 /**
  *  Удалить
  * @param selectedRows
@@ -68,7 +67,7 @@ const handleRemove = async (selectedRows: TableListItem[]) => {
   if (!selectedRows) return true;
   try {
     await deleteUser({
-      id: selectedRows.map(row => row.id),
+      id: selectedRows.map((row) => row.id),
     });
     hide();
     message.success('Удалено успешно');
@@ -84,7 +83,6 @@ const TableList: React.FC<{}> = () => {
   const [sorter, setSorter] = useState<string>('');
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [editModalVisible, handleEditModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({});
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<TableListItem>[] = [
@@ -124,13 +122,15 @@ const TableList: React.FC<{}> = () => {
     {
       title: 'Дата создания',
       dataIndex: 'createDt',
-      valueType: 'dateTime',
+      valueType: 'date',
+      hideInForm: true,
+      hideInTable: false,
       sorter: true,
     },
     {
       title: 'Дата завершения',
       dataIndex: 'endDt',
-      valueType: 'dateTime',
+      valueType: 'date',
       sorter: true,
     },
     {
@@ -166,7 +166,6 @@ const TableList: React.FC<{}> = () => {
           >
             Редактировать
           </a>
-
         </>
       ),
     },
@@ -195,10 +194,12 @@ const TableList: React.FC<{}> = () => {
             <Dropdown
               overlay={
                 <Menu
-                  onClick={async e => {
+                  onClick={async (e) => {
                     if (e.key === 'remove') {
                       await handleRemove(selectedRows);
-                      action.reload();
+                      if (action !== undefined) {
+                        action.reload();
+                      }
                     }
                   }}
                   selectedKeys={[]}
@@ -219,13 +220,13 @@ const TableList: React.FC<{}> = () => {
             Выбрано <a style={{ fontWeight: 600 }}>{selectedRowKeys.selectedRowKeys.length}</a>
           </div>
         )}
-        request={params => queryUsers(params)}
+        request={(params) => queryUsers(params)}
         columns={columns}
         rowSelection={{}}
       />
       <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
         <ProTable<TableListItem, TableListItem>
-          onSubmit={async value => {
+          onSubmit={async (value) => {
             const success = await handleAdd(value);
             if (success) {
               handleModalVisible(false);
@@ -241,29 +242,26 @@ const TableList: React.FC<{}> = () => {
         />
       </CreateForm>
       {stepFormValues && Object.keys(stepFormValues).length ? (
-      <EditForm
-        onSubmit={async value => {
-          const success = await handleEdit(value);
+        <EditForm
+          onSubmit={async (value) => {
+            const success = await handleEdit(value);
 
-          if (success) {
-            handleEditModalVisible(false);
+            if (success) {
+              handleEditModalVisible(false);
 
-            if (actionRef.current) {
-              actionRef.current.reload();
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
             }
-          }
-        }}
-        onCancel={() => {
-          handleUpdateModalVisible(false);
-          setStepFormValues({});
-        }}
-        editModalVisible={editModalVisible}
-        values={stepFormValues}
-      />
+          }}
+          onCancel={() => {
+            setStepFormValues({});
+          }}
+          editModalVisible={editModalVisible}
+          values={stepFormValues}
+        />
       ) : null}
-
     </PageHeaderWrapper>
-
   );
 };
 
